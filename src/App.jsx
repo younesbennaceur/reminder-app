@@ -12,17 +12,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [error, setError] = useState('');
-     const handleTestNotifications = async () => {
-  try {
-    const response = await fetch('https://reminder-eud4.onrender.com/api/test-notifications', {
-      method: 'GET'
-    });
-    const data = await response.json();
-    console.log("Notifs envoyées :", data);
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 const handleSubscribe = async () => {
   setLoading(true);
@@ -69,7 +58,6 @@ const handleSubscribe = async () => {
       body: JSON.stringify(subscription),
       headers: { 'Content-Type': 'application/json' }
     });
- 
 
     console.log("7. Réponse reçue du serveur !");
 
@@ -105,12 +93,6 @@ const handleSubscribe = async () => {
         <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white shadow-sm">
           <div className="w-full h-full bg-gradient-to-tr from-gray-300 to-gray-100"></div>
         </div>
-        <button 
-        onClick={handleTestNotifications}
-        className="text-xs bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-      >
-        🧪 Test Notif
-      </button>
       </nav>
 
       {/* Contenu Principal */}
