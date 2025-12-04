@@ -53,7 +53,7 @@ const handleSubscribe = async () => {
     console.log("5. Permission accordée & Token généré !");
 
     console.log("6. Envoi vers le serveur...");
-    const response = await fetch('https://reminder-eud4.onrender.com/api/subscribe', {
+    const response = await fetch('https://reminder-eud4.onrender.com/api/test-notifications', {
       method: 'POST',
       body: JSON.stringify(subscription),
       headers: { 'Content-Type': 'application/json' }
