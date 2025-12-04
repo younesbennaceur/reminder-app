@@ -14,58 +14,66 @@ function App() {
   const [error, setError] = useState('');
 
 const handleSubscribe = async () => {
-    setLoading(true);
-    setError('');
-    setIsSubscribed(false);
-    console.log("1. Début du processus..."); // <--- DEBUG
+  setLoading(true);
+  setError('');
+  setIsSubscribed(false);
+  console.log("1. Début du processus...");
 
-    try {
-      if (!('serviceWorker' in navigator)) {
-        throw new Error("Service Worker non supporté");
-      }
-
-      // 1. Register SW
-      console.log("2. Tentative registration SW..."); // <--- DEBUG
-      const register = await navigator.serviceWorker.register('/sw.js');
-      console.log("3. SW enregistré !"); // <--- DEBUG
-
-      const vapidKey = import.meta.env.VITE_PUBLIC_VAPID_KEY;
-      if (!vapidKey) throw new Error("Pas de clé VAPID !");
-
-      // 2. Push Subscription
-      console.log("4. Demande de permission au navigateur (REGARDE L'POPUP !)..."); // <--- DEBUG
-      
-      // C'EST SOUVENT ICI QUE ÇA BLOQUE 
-      const subscription = await register.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(vapidKey)
-      });
-      
-      console.log("5. Permission accordée & Token généré !"); // <--- DEBUG
-
-      // 3. Send to backend
-      console.log("6. Envoi vers http://localhost:5000..."); // <--- DEBUG
-      const reponse = await fetch('http://localhost:5000/api/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      console.log("7. Réponse reçue du serveur !"); // <--- DEBUG
-
-      if (!response.ok) throw new Error('Erreur serveur HTTP ' + response.status);
-
-      setIsSubscribed(true);
-      console.log("8. SUCCÈS TOTAL !"); // <--- DEBUG
-
-    } catch (err) {
-      console.error("ERREUR ATTRAPÉE :", err);
-      setError(err.message || 'Erreur inconnue');
-    } finally {
-      console.log("9. Fin du chargement (Finally)"); // <--- DEBUG
-      setLoading(false);
+  try {
+    if (!('serviceWorker' in navigator)) {
+      throw new Error("Service Worker non supporté");
     }
-  };
+
+    console.log("2. Tentative registration SW...");
+    const register = await navigator.serviceWorker.register('/sw.js');
+    console.log("3. SW enregistré !");
+
+    // ✅ ATTENDS que le SW soit VRAIMENT actif
+    await navigator.serviceWorker.ready;
+    console.log("3b. SW prêt et actif !");
+
+    const vapidKey = import.meta.env.VITE_PUBLIC_VAPID_KEY;
+    if (!vapidKey) throw new Error("Pas de clé VAPID !");
+
+    console.log("4. Demande de permission au navigateur...");
+    
+    // ✅ Assure-toi que la permission est accordée
+    if (Notification.permission === 'default') {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        throw new Error("Permission refusée");
+      }
+    }
+
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(vapidKey)
+    });
+    
+    console.log("5. Permission accordée & Token généré !");
+
+    console.log("6. Envoi vers le serveur...");
+    const response = await fetch('http://localhost:5000/api/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(subscription),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    console.log("7. Réponse reçue du serveur !");
+
+    if (!response.ok) throw new Error('Erreur serveur HTTP ' + response.status);
+
+    setIsSubscribed(true);
+    console.log("8. SUCCÈS TOTAL !");
+
+  } catch (err) {
+    console.error("ERREUR ATTRAPÉE :", err);
+    setError(err.message || 'Erreur inconnue');
+  } finally {
+    console.log("9. Fin du chargement (Finally)");
+    setLoading(false);
+  }
+};
 
 
   return (
