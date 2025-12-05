@@ -4,6 +4,7 @@ import PrayerCard from './components/prayerCard.jsx';
 import HeroText from './components/heroCard.jsx';
 import FeatureCard from './components/featureCard.jsx';
 import { urlBase64ToUint8Array } from './utils/helpers.js';
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -276,6 +277,7 @@ function App() {
         <p>© 2025 تطبيق ذكر. صمم لراحتك.</p>
         <p>تم التطوير من طرف  يونس ناصر.</p>
       </footer>
+      <Analytics />
     </div>
   );
 }
