@@ -9,6 +9,9 @@ import { Analytics } from "@vercel/analytics/react";
 function App() {
   const [loading, setLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [loadingWhiteDays, setLoadingWhiteDays] = useState(false);
+const [isWhiteDaysSub, setIsWhiteDaysSub] = useState(false);
+
   const [error, setError] = useState('');
   const [loadingDaily, setLoadingDaily] = useState(false);
   const [isDailySub, setIsDailySub] = useState(false); 
@@ -107,12 +110,18 @@ function App() {
 
      
       if (type === 'daily') {
-          setIsDailySub(true);
-          localStorage.setItem('sub-daily', 'true'); 
-      } else {
-          setIsFastingSub(true);
-          localStorage.setItem('sub-fasting', 'true');
-      }
+    setIsDailySub(true);
+    localStorage.setItem('sub-daily', 'true'); 
+
+} else if (type === 'fasting') {
+    setIsFastingSub(true);
+    localStorage.setItem('sub-fasting', 'true');
+
+} else if (type === 'whiteDays') {
+    setIsWhiteDaysSub(true);
+    localStorage.setItem('sub-whiteDays', 'true');
+}
+
 
     } catch (err) {
       console.error(err);
@@ -245,6 +254,22 @@ function App() {
     hadithText="تُعرض الأعمال يوم الإثنين والخميس، فأحب أن يعرض عملي وأنا صائم."
     hadithReward="باب الريان في الجنة للصائمين"
   />
+  <PrayerCard
+theme={theme}
+loading={loadingWhiteDays}
+isSubscribed={isWhiteDaysSub}
+onSubscribe={() => handleSubscribe('whiteDays')}
+error={error}
+
+badgeIcon={Sun}
+badgeText="أيام البيض"
+title="صيام الأيام البيض"
+description="تذكير شهري أيام 13 و14 و15 هجري للصيام واغتنام الأجر العظيم."
+
+hadithSource="قال رسول الله ﷺ"
+hadithText="صيام ثلاثة أيام من كل شهر صيام الدهر."
+hadithReward="صيام الدهر لمن داوم عليها."
+/>
             <FeatureCard 
             icon={Heart }
             title="صدقة جارية"
