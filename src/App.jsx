@@ -94,7 +94,7 @@ function App() {
       });
 
       // 2. On envoie au backend le type spécifique ('daily' ou 'fasting')
-      const response = await fetch('https://reminder-eud4.onrender.com/api/subscribe', {
+      const response = await fetch('https://mutual-donella-ynsbennaceur-4c2584ba.koyeb.app/api/subscribe', {
         method: 'POST',
         body: JSON.stringify({ 
             subscription, 
