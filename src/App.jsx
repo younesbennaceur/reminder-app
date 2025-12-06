@@ -11,12 +11,12 @@ function App() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [error, setError] = useState('');
   const [loadingDaily, setLoadingDaily] = useState(false);
-  const [isDailySub, setIsDailySub] = useState(false); // État pour la carte Adhkar
+  const [isDailySub, setIsDailySub] = useState(false); 
 
   const [loadingFasting, setLoadingFasting] = useState(false);
   const [isFastingSub, setIsFastingSub] = useState(false);
   
-  // Initialisation du thème
+  
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('app-theme') || 'light';
@@ -27,7 +27,7 @@ function App() {
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const menuRef = useRef(null);
 
-  // Gestion du clic extérieur pour le menu
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -38,7 +38,7 @@ function App() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Application des classes globales (pour le scrollbar, body, etc.)
+  
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('dark', 'sepia-mode');
@@ -51,16 +51,16 @@ function App() {
     localStorage.setItem('app-theme', theme);
   }, [theme]);
 
-  // Styles du conteneur principal (Background global)
+  
   const getThemeStyles = () => {
     switch(theme) {
-      case 'dark': return 'bg-slate-950 text-gray-100'; // Plus sombre pour le contraste
-      case 'sepia': return 'bg-[#f0e6d2] text-[#463a2a]'; // Couleur parchemin
-      default: return 'bg-[#F5F5F7] text-gray-900'; // Clair standard
+      case 'dark': return 'bg-slate-950 text-gray-100'; 
+      case 'sepia': return 'bg-[#f0e6d2] text-[#463a2a]'; 
+      default: return 'bg-[#F5F5F7] text-gray-900'; 
     }
   };
 
-  // Styles de la Navbar
+  
   const getNavbarStyles = () => {
     switch(theme) {
       case 'dark': return 'bg-slate-950/80 border-b border-white/10';
@@ -69,9 +69,9 @@ function App() {
     }
   };
 
- // --- LOGIQUE D'ABONNEMENT GÉNÉRIQUE ---
+ 
   const handleSubscribe = async (type) => {
-    // 1. On active le chargement sur la bonne carte
+    
     if (type === 'daily') setLoadingDaily(true);
     if (type === 'fasting') setLoadingFasting(true);
     
@@ -93,22 +93,22 @@ function App() {
         applicationServerKey: urlBase64ToUint8Array(vapidKey)
       });
 
-      // 2. On envoie au backend le type spécifique ('daily' ou 'fasting')
-      const response = await fetch('https://mutual-donella-ynsbennaceur-4c2584ba.koyeb.app/api/subscribe', {
+      
+      const response = await fetch('https://reminder-eud4.onrender.com/api/subscribe', {
         method: 'POST',
         body: JSON.stringify({ 
             subscription, 
-            type: type // C'est ici qu'on dit au serveur quelle carte a été cliquée
+            type: type 
         }),
         headers: { 'Content-Type': 'application/json' }
       });
 
       if (!response.ok) throw new Error('Erreur réseau');
 
-      // 3. On met à jour l'état visuel de la bonne carte
+     
       if (type === 'daily') {
           setIsDailySub(true);
-          localStorage.setItem('sub-daily', 'true'); // On sauvegarde pour le rechargement de page
+          localStorage.setItem('sub-daily', 'true'); 
       } else {
           setIsFastingSub(true);
           localStorage.setItem('sub-fasting', 'true');
@@ -123,7 +123,7 @@ function App() {
     }
   };
 
-  // Au chargement, on vérifie le LocalStorage pour remettre les boutons "Verts" si déjà abonnés
+  
   useEffect(() => {
       if (localStorage.getItem('sub-daily') === 'true') setIsDailySub(true);
       if (localStorage.getItem('sub-fasting') === 'true') setIsFastingSub(true);
@@ -214,19 +214,19 @@ function App() {
     onSubscribe={() => handleSubscribe('daily')}
     error={error}
     
-    // Textes spécifiques au Sommeil
+    
     badgeIcon={Moon}
     badgeText="الأساسية"
     title="أذكار النوم"
     description="تذكير يومي هادئ عند الساعة 10:00 مساءً لقراءة المعوذات وآية الكرسي قبل النوم."
     
-    // Hadith spécifique au Sommeil
+    
     hadithSource="قال رسول الله ﷺ : من قال حين يأوي إلى فراشه"
     hadithText="لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، لا حول ولا قوة إلا بالله العلي العظيم، سبحان الله والحمد لله ولا إله إلا الله والله أكبر"
     hadithReward="غفرت له خطاياه ولو كانت مثل زبد البحر"
   />
 
-  {/* --- CARTE 2 : JEÛNE (Lundi/Jeudi) --- */}
+  
   <PrayerCard 
     theme={theme}
     loading={loadingFasting}
@@ -234,13 +234,13 @@ function App() {
     onSubscribe={() => handleSubscribe('fasting')}
     error={error}
 
-    // Textes spécifiques au Jeûne
+    
     badgeIcon={Calendar}
     badgeText="سُنة مهجورة"
     title="صيام الإثنين والخميس"
     description="تذكير يأتيك الأحد والأربعاء لتذكيرك بنية الصيام واغتنام الأجر."
 
-    // Hadith spécifique au Jeûne
+    
     hadithSource="عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ"
     hadithText="تُعرض الأعمال يوم الإثنين والخميس، فأحب أن يعرض عملي وأنا صائم."
     hadithReward="باب الريان في الجنة للصائمين"
@@ -252,7 +252,7 @@ function App() {
             
             theme={theme}
           />
-          {/* Carte : Partager (Pour dire aux gens de partager) */}
+          
 <FeatureCard 
   icon={Share2}
   title="شارك الأجر"
@@ -261,7 +261,7 @@ function App() {
   theme={theme}
 />
 
-{/* Carte : Fais-le toi-même (Open Source) */}
+
 <FeatureCard 
   icon={Code}
   title="مفتوح المصدر"
