@@ -1,6 +1,6 @@
 {
-  "short_name": "ذكر",
-  "name": "تطبيق ذكر",
+  "short_name": "تذكير",
+  "name": "تطبيق تذكير",
   "icons": [
     {
       "src": "/Icon.png",

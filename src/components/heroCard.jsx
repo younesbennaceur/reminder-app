@@ -7,7 +7,7 @@ const HeroText = ({ theme }) => {
         ${theme === 'dark' ? 'text-white' : theme === 'sepia' ? 'text-[#5c4b37]' : 'text-[#1D1D1F]'}
       `}>
         رفيقك الروحي <br />
-        <span className={` ${theme === 'dark' ? 'text-[#2B7FFF]' : theme === 'sepia' ? 'text-[#d8bd9d]' : 'text-text-[#2B7FFF]'}`}>لأورادك اليومية</span>
+        <span className={` ${theme === 'dark' ? 'text-[#2B7FFF]' : theme === 'sepia' ? 'text-[#d8bd9d]' : 'text-[#2B7FFF]'}`}>لأورادك اليومية</span>
       </h1>
       
       <p className={`text-lg md:text-xl font-medium max-w-4xl mx-auto leading-relaxed transition-colors duration-500

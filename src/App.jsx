@@ -152,7 +152,7 @@ const [isWhiteDaysSub, setIsWhiteDaysSub] = useState(false);
           <div className="flex items-center gap-3">
             <img className='h-10 w-10' src={` ${theme === 'dark' ? './Logo.png' : theme === 'sepia' ? './Logo2.png' : './Logo.png'}`} alt="" />
            
-            <span className="font-bold text-2xl tracking-tight">ذكـر</span>
+            <span className="font-bold text-2xl tracking-tight">تذكير</span>
           </div>
           
           {/* Theme Switcher */}
@@ -299,7 +299,7 @@ hadithReward="صيام الدهر لمن داوم عليها."
       </main>
 
       <footer className={`mt-20 text-center text-sm transition-colors duration-500 ${theme === 'sepia' ? 'text-[#8c7355]' : 'text-gray-400'}`}>
-        <p>© 2025 تطبيق ذكر. صمم لراحتك.</p>
+        <p>© 2025 تطبيق تذكير. صمم لراحتك.</p>
         <p>تم التطوير من طرف  يونس ناصر.</p>
       </footer>
       <Analytics />
