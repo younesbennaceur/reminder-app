@@ -136,6 +136,7 @@ const [isWhiteDaysSub, setIsWhiteDaysSub] = useState(false);
   useEffect(() => {
       if (localStorage.getItem('sub-daily') === 'true') setIsDailySub(true);
       if (localStorage.getItem('sub-fasting') === 'true') setIsFastingSub(true);
+      if (localStorage.getItem('sub-whiteDays') === 'true') setIsWhiteDaysSub(true);
   }, []);
 
   return (
